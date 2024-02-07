@@ -12,7 +12,6 @@ class ParkingSystem {
 
   parkVehicle(vehicleType) {
     const entryPointIndex = this.getClosestEntryPoint();
-    console.log('aaaaaaaaa', entryPointIndex);
     const availableSlot = this.findAvailableSlot(vehicleType, entryPointIndex);
 
     if (availableSlot) {
@@ -135,8 +134,6 @@ const parkingSystem = new ParkingSystem(
   parkingDistances,
   parkingSizes
 );
-
-console.log('this is the object', parkingSystem);
 
 // Park a vehicle
 const vehicleType = 'S'; // Small vehicle
