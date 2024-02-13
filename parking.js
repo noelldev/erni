@@ -67,9 +67,10 @@ class ParkingSystem {
 
   calculateParkingFee(slot, hoursParked) {
     const slotSize = this.slotSizes[slot];
-    let fee = 40; // Flat rate for the first 3 hours
-
-    if (hoursParked > 3) {
+    // Flat rate for the first 3 hours
+    let fee = 0;
+    if (hoursParked > 3 && hoursParked <= 24) {
+      fee = 40;
       switch (slotSize) {
         case 0: // Small
           fee += 20 * (hoursParked - 3);
@@ -81,11 +82,27 @@ class ParkingSystem {
           fee += 100 * (hoursParked - 3);
           break;
       }
-
-      // Apply the 24-hour chunk charge
-      fee += Math.floor((hoursParked - 1) / 24) * 5000;
+    } else {
+      fee = 5000;
+      // Calculate the remaining hours charge after the last 24-hour chunk
+      const remainingHours = hoursParked - 24;
+      if (remainingHours <= 3) {
+        fee += 40;
+      } else {
+        fee += 40;
+        switch (slotSize) {
+          case 0:
+            fee += (remainingHours - 3) * 20;
+            break;
+          case 1:
+            fee += (remainingHours - 3) * 60;
+            break;
+          case 2:
+            fee += (remainingHours - 3) * 100;
+            break;
+        }
+      }
     }
-
     return fee;
   }
 }
